@@ -1,0 +1,137 @@
+﻿@model JQuery.Persona
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Persona</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.per_nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.per_nombre, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.per_nombre, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.per_edad, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.per_edad, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.per_edad, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Guardar Datos" class="btn btn-default" />
+                <a id="operacion" href="#" class="btn btn-danger"  onclick="addNewOrder()">Nuevo Auto</a>
+            </div>
+        </div>
+
+    </div>
+ 
+    <div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        <h4>#</h4>
+                    </th>
+                    <th>
+                        <h4>Placa</h4>
+                    </th>
+                    <th>
+                        <h4>Modelo</h4>
+                    </th>
+                    <th>
+                        <h4>Color</h4>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    int contador = 0;
+                    foreach (var item in Model.Autoes)
+                    {
+                        <tr>
+                            <td>
+                                contador++;
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.aut_placa)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.aut_modelo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.aut_color)
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+}
+<div class="modal fade" id="newOrderModal">
+    <div class="modal-dialog modal-lg" style=" width: 900px !important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h4>Añadir Nuevo Auto</h4>
+            </div>
+            <form id="NewOrderForm">
+                <div class="modal-body">
+                    @*Detalle Auto*@
+                    <div class="form-horizontal">
+                        <input type="hidden" id="aut_id" />
+                        <div class="form-group">
+                            <label class="control-label col-md-2">
+                                Placa
+                            </label>
+                            <div class="col-md-4">
+                                <input type="text" id="placa" name="placa" placeholder="Placa" class="form-control" required/>
+                            </div>
+                            <label class="control-label col-md-2">
+                                Modelo
+                            </label>
+                            <div class="col-md-4">
+                                <input type="text" id="modelo" name="modelo" placeholder="Modelo" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2">
+                                Color
+                            </label>
+                            <div class="col-md-4">
+                                <input type="text" id="color" name="color" placeholder="Color" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button id="save" type="submit" class="btn btn-danger">Guardar Auto</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

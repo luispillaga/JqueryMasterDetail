@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TallerJQueryModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Auto">
+    <Key>
+      <PropertyRef Name="aut_id" />
+    </Key>
+    <Property Name="aut_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="aut_placa" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+    <Property Name="aut_modelo" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+    <Property Name="aut_color" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+    <Property Name="per_id" Type="Int32" />
+    <NavigationProperty Name="Persona" Relationship="Self.FK__Auto__per_id__398D8EEE" FromRole="Auto" ToRole="Persona" />
+  </EntityType>
+  <EntityType Name="Persona">
+    <Key>
+      <PropertyRef Name="per_id" />
+    </Key>
+    <Property Name="per_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="per_nombre" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+    <Property Name="per_edad" Type="Int32" />
+    <NavigationProperty Name="Autoes" Relationship="Self.FK__Auto__per_id__398D8EEE" FromRole="Persona" ToRole="Auto" />
+  </EntityType>
+  <Association Name="FK__Auto__per_id__398D8EEE">
+    <End Role="Persona" Type="Self.Persona" Multiplicity="0..1" />
+    <End Role="Auto" Type="Self.Auto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Persona">
+        <PropertyRef Name="per_id" />
+      </Principal>
+      <Dependent Role="Auto">
+        <PropertyRef Name="per_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TallerJQueryEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Autoes" EntityType="Self.Auto" />
+    <EntitySet Name="Personas" EntityType="Self.Persona" />
+    <AssociationSet Name="FK__Auto__per_id__398D8EEE" Association="Self.FK__Auto__per_id__398D8EEE">
+      <End Role="Persona" EntitySet="Personas" />
+      <End Role="Auto" EntitySet="Autoes" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
